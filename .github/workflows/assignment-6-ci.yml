@@ -5,35 +5,46 @@ on:
     types:
       - opened
     paths:
-      - 'packages/assignment-6/**'
+      - "packages/assignment-6/**"
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: job1 구현
-        run: echo "job1의 내용을 구현해주세요"
+      - uses: actions/checkout@v4
+      - name: tsc, build 실행하고 오류 발생시 코멘트에 남긴다.
+        uses: actions/setup-node@v4
+        with:
+          node-version: "${cat .nvmrc}"
+      - run: npm CI
+      - run: npm install typescript
+      - run: npx tsc .
+      - run: npm run build --if-present
 
   lint:
     runs-on: ubuntu-latest
     steps:
-      - name: job2 구현
-        run: echo "job2의 내용을 구현해주세요"
+      - name: eslint 실행하고 오류 발생시 report를 코멘트에 남긴다.
+        uses: actions/setup-node@v4
+        with:
+          node-version: "${cat .nvmrc}"
+      - run: npm install eslint
+      - run: npm run eslint .
 
   test:
     runs-on: ubuntu-latest
     steps:
-      - name: job3 구현
+      - name: test를 실행하고 커버리지를 측정하여 코멘트에 남긴다.
         run: echo "job3의 내용을 구현해주세요"
 
   lighthouse:
     runs-on: ubuntu-latest
     steps:
-      - name: job4 구현
+      - name: lighthouse ci 를 실행하고 실행결과를 코멘트에 남긴다.
         run: echo "job4의 내용을 구현해주세요"
 
   assign_reviewer:
     runs-on: ubuntu-latest
     steps:
-      - name: job5 구현
+      - name: PR이 open될때만 실행되고, 팀원 중 한 명을 랜덤으로 선정하여 리뷰어로 지정한 다음 코멘트에 멘션하여 올린다.
         run: echo "job5의 내용을 구현해주세요"
